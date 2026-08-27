@@ -1,0 +1,20 @@
+{
+  "name": "codex-peasant",
+  "interface": {
+    "displayName": "Codex Peasant"
+  },
+  "plugins": [
+    {
+      "name": "codex-peasant",
+      "source": {
+        "source": "local",
+        "path": "./plugins/codex-peasant"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

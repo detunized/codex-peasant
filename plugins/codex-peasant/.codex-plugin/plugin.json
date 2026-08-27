@@ -1,0 +1,28 @@
+{
+  "name": "codex-peasant",
+  "version": "0.1.0",
+  "description": "Warcraft III Human Peasant voice notifications for Codex on macOS.",
+  "author": {
+    "name": "Dmitry Yakimenko",
+    "url": "https://github.com/detunized"
+  },
+  "homepage": "https://github.com/detunized/codex-peasant#readme",
+  "repository": "https://github.com/detunized/codex-peasant",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "hooks",
+    "macos",
+    "audio",
+    "notifications"
+  ],
+  "interface": {
+    "displayName": "Codex Peasant",
+    "shortDescription": "Human Peasant voice notifications for Codex.",
+    "longDescription": "Play event-appropriate Warcraft III Human Peasant voice lines for Codex lifecycle events on macOS.",
+    "developerName": "Dmitry Yakimenko",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Show me how to configure Codex Peasant."
+  }
+}
