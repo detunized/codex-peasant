@@ -2,7 +2,7 @@
 
 ## Warcraft III Human Peasant voice recordings
 
-The 13 WAV files bundled in `sounds/` are unmodified selections from the `peasant` pack in [PeonPing/og-packs](https://github.com/PeonPing/og-packs/tree/5d1245fe0188c8da775ca8875c32ee7bf8d92c57/peasant):
+The eight WAV files bundled in `sounds/` are unmodified selections from the `peasant` pack in [PeonPing/og-packs](https://github.com/PeonPing/og-packs/tree/5d1245fe0188c8da775ca8875c32ee7bf8d92c57/peasant):
 
 - Pack author: [thomasKn](https://github.com/thomasKn)
 - Source commit: [`5d1245fe0188c8da775ca8875c32ee7bf8d92c57`](https://github.com/PeonPing/og-packs/commit/5d1245fe0188c8da775ca8875c32ee7bf8d92c57)
@@ -21,10 +21,5 @@ PeasantWhat2.wav
 PeasantWhat3.wav
 PeasantWhat4.wav
 PeasantYes1.wav
-PeasantYes2.wav
 PeasantYes3.wav
-PeasantYes4.wav
-PeasantYesAttack1.wav
-PeasantYesAttack2.wav
-PeasantYesAttack4.wav
 ```

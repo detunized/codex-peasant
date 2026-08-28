@@ -14,18 +14,6 @@
         ]
       }
     ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/bin/sh \"$PLUGIN_ROOT/scripts/play.sh\" prompt_acknowledge",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      }
-    ],
     "Stop": [
       {
         "hooks": [
@@ -45,19 +33,6 @@
           {
             "type": "command",
             "command": "/bin/sh \"$PLUGIN_ROOT/scripts/play.sh\" permission_required",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "matcher": "^(manual|auto)$",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/bin/sh \"$PLUGIN_ROOT/scripts/play.sh\" compact_warning",
             "timeout": 10,
             "async": true
           }

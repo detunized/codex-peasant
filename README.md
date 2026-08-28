@@ -2,7 +2,7 @@
 
 Minimal Warcraft III Human Peasant voice notifications for Codex on macOS.
 
-This is a native Codex plugin: five lifecycle hooks, one POSIX shell script, and 13 bundled voice lines. It has no skill, MCP server, daemon, desktop notification, state, telemetry, or runtime download.
+This is a native Codex plugin: three lifecycle hooks, one POSIX shell script, and eight bundled voice lines. It has no skill, MCP server, daemon, desktop notification, state, telemetry, or runtime download.
 
 ## Install
 
@@ -13,19 +13,17 @@ codex plugin marketplace add detunized/codex-peasant
 codex plugin add codex-peasant@codex-peasant
 ```
 
-Start a new Codex session after installation. Open `/hooks`, review the five bundled handlers, and trust them once. Codex intentionally skips new or changed non-managed hooks until you approve their exact definitions.
+Start a new Codex session after installation. Open `/hooks`, review the three bundled handlers, and trust them once. Codex intentionally skips new or changed non-managed hooks until you approve their exact definitions.
 
 ## Events
 
 | Codex event | Voice category | Default | Human Peasant pool |
 |---|---|---:|---|
 | `SessionStart` from startup, resume, or clear | `session_start` | On | Ready1, What1, What2 |
-| `UserPromptSubmit` | `prompt_acknowledge` | Off | Yes1–4, YesAttack1–2 |
 | `Stop` | `task_complete` | On | JobDone, Ready1, Yes1, Yes3, What3 |
 | `PermissionRequest` | `permission_required` | On | What1–4 |
-| `PreCompact` from manual or automatic compaction | `compact_warning` | Off | YesAttack4 (“That’s it. I’m dead.”) |
 
-Compact-originated `SessionStart` events are excluded, so opting into the compact warning does not also play a greeting.
+Only main-thread `Stop` is configured. The plugin installs no `SubagentStop` handler, so delegated subtask completion stays silent. Prompt submission and compaction are also intentionally silent. Compact-originated `SessionStart` events remain excluded.
 
 The following Claude-style events are intentionally unsupported because Codex has no equivalent stable lifecycle signal:
 
@@ -42,20 +40,16 @@ Each setting accepts `true`, `1`, `yes`, or `on` as enabled. Any other non-empty
 | Environment variable | Default |
 |---|---:|
 | `CODEX_PEASANT_SESSION_START` | `true` |
-| `CODEX_PEASANT_PROMPT_ACKNOWLEDGE` | `false` |
 | `CODEX_PEASANT_TASK_COMPLETE` | `true` |
 | `CODEX_PEASANT_PERMISSION_REQUIRED` | `true` |
-| `CODEX_PEASANT_COMPACT_WARNING` | `false` |
 | `CODEX_PEASANT_MUTED` | `false` |
 
 For the CLI, export settings in the terminal before starting Codex:
 
 ```sh
 export CODEX_PEASANT_SESSION_START=true
-export CODEX_PEASANT_PROMPT_ACKNOWLEDGE=false
 export CODEX_PEASANT_TASK_COMPLETE=true
 export CODEX_PEASANT_PERMISSION_REQUIRED=true
-export CODEX_PEASANT_COMPACT_WARNING=false
 export CODEX_PEASANT_MUTED=false
 codex
 ```
@@ -63,8 +57,9 @@ codex
 For the macOS app, set variables in the per-user launch environment, then quit and reopen Codex:
 
 ```sh
-launchctl setenv CODEX_PEASANT_PROMPT_ACKNOWLEDGE true
-launchctl setenv CODEX_PEASANT_COMPACT_WARNING true
+launchctl setenv CODEX_PEASANT_SESSION_START true
+launchctl setenv CODEX_PEASANT_TASK_COMPLETE true
+launchctl setenv CODEX_PEASANT_PERMISSION_REQUIRED true
 launchctl setenv CODEX_PEASANT_MUTED false
 ```
 

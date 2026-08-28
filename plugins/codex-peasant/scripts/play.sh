@@ -33,16 +33,6 @@ case "$category" in
       "$sounds/PeasantWhat1.wav" \
       "$sounds/PeasantWhat2.wav"
     ;;
-  prompt_acknowledge)
-    enabled=${CODEX_PEASANT_PROMPT_ACKNOWLEDGE:-false}
-    set -- \
-      "$sounds/PeasantYes1.wav" \
-      "$sounds/PeasantYes2.wav" \
-      "$sounds/PeasantYes3.wav" \
-      "$sounds/PeasantYes4.wav" \
-      "$sounds/PeasantYesAttack1.wav" \
-      "$sounds/PeasantYesAttack2.wav"
-    ;;
   task_complete)
     enabled=${CODEX_PEASANT_TASK_COMPLETE:-true}
     set -- \
@@ -59,10 +49,6 @@ case "$category" in
       "$sounds/PeasantWhat2.wav" \
       "$sounds/PeasantWhat3.wav" \
       "$sounds/PeasantWhat4.wav"
-    ;;
-  compact_warning)
-    enabled=${CODEX_PEASANT_COMPACT_WARNING:-false}
-    set -- "$sounds/PeasantYesAttack4.wav"
     ;;
   *) exit 0 ;;
 esac
