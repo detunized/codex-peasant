@@ -12,7 +12,68 @@ is_enabled() {
   esac
 }
 
+# Codex does not currently include its client/originator in command-hook input.
+# On macOS, find the Codex process that owns this hook and inspect its public
+# subcommand. `exec` (including its `e` alias) and `review` are non-interactive.
+is_non_interactive_codex_session() (
+  pid=$PPID
+
+  while [ "$pid" -gt 1 ] 2>/dev/null; do
+    process_name=$(/bin/ps -ww -o comm= -p "$pid" 2>/dev/null) || exit 1
+    process_name=${process_name#"${process_name%%[![:space:]]*}"}
+    process_name=${process_name%"${process_name##*[![:space:]]}"}
+
+    case "${process_name##*/}" in
+      codex)
+        process_command=$(/bin/ps -ww -o command= -p "$pid" 2>/dev/null) || exit 1
+        case "$process_command" in
+          *[[:space:]]*) arguments=${process_command#*[[:space:]]} ;;
+          *) arguments= ;;
+        esac
+
+        # `ps` presents arguments as words. Disable pathname expansion before
+        # parsing the documented top-level Codex options and subcommands.
+        set -f
+        set -- $arguments
+        while [ "$#" -gt 0 ]; do
+          argument=$1
+          shift
+          case "$argument" in
+            exec|e|review) exit 0 ;;
+            --) exit 1 ;;
+            -c|--config|--enable|--disable|--remote|--remote-auth-token-env|\
+            -i|--image|-m|--model|--local-provider|-p|--profile|-s|--sandbox|\
+            -C|--cd|--add-dir|-a|--ask-for-approval)
+              [ "$#" -gt 0 ] || exit 1
+              shift
+              ;;
+            --*=*|-c?*|-i?*|-m?*|-p?*|-s?*|-C?*|-a?*) ;;
+            -*) ;;
+            *) exit 1 ;;
+          esac
+        done
+        exit 1
+        ;;
+    esac
+
+    parent_pid=$(/bin/ps -ww -o ppid= -p "$pid" 2>/dev/null) || exit 1
+    parent_pid=${parent_pid#"${parent_pid%%[![:space:]]*}"}
+    parent_pid=${parent_pid%"${parent_pid##*[![:space:]]}"}
+    case "$parent_pid" in
+      ''|*[!0-9]*) exit 1 ;;
+    esac
+    [ "$parent_pid" != "$pid" ] || exit 1
+    pid=$parent_pid
+  done
+
+  exit 1
+)
+
 if is_enabled "${CODEX_PEASANT_MUTED:-false}"; then
+  exit 0
+fi
+
+if is_non_interactive_codex_session; then
   exit 0
 fi
 

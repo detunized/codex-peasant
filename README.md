@@ -4,6 +4,10 @@ Minimal Warcraft III Human Peasant voice notifications for Codex on macOS.
 
 This is a native Codex plugin: three lifecycle hooks, one POSIX shell script, and eight bundled voice lines. It has no skill, MCP server, daemon, desktop notification, state, telemetry, or runtime download.
 
+For the Codex CLI, sounds play only in interactive sessions. The plugin automatically stays silent for non-interactive `codex exec` (including the `codex e` alias) and `codex review` runs, even when they are launched from a terminal. This applies to every configured hook in those runs.
+
+To run Codex non-interactively, use `codex exec "your prompt"`. The top-level `-p`/`--profile` option selects a configuration profile; it does not mean “prompt” or “print.” Passing a prompt directly to `codex` still opens the interactive TUI and remains audible.
+
 ## Install
 
 Codex Peasant requires macOS and Codex CLI 0.149.1 or newer.
@@ -31,7 +35,7 @@ The following Claude-style events are intentionally unsupported because Codex ha
 - Failed Bash command (`bash_failure`): `PostToolUse` runs after failures, but its stable hook contract has no dedicated portable exit-status field
 - MCP elicitation or input request (`input_required`)
 
-The plugin does not guess from transcripts, command text, or other unstable implementation details.
+Codex hook input does not currently identify the client that launched the session. To distinguish the public interactive and non-interactive CLI forms without reading unstable transcript data, the macOS hook walks its parent processes and recognizes the `exec`, `e`, and `review` subcommands.
 
 ## Configure
 
@@ -69,7 +73,7 @@ Remove an app setting with `launchctl unsetenv NAME`. You can also open `/hooks`
 
 - macOS
 - Codex CLI 0.149.1 or newer with hooks enabled
-- The built-in `/bin/sh`, `/usr/bin/jot`, `/usr/bin/nohup`, and `/usr/bin/afplay` commands
+- The built-in `/bin/sh`, `/bin/ps`, `/usr/bin/jot`, `/usr/bin/nohup`, and `/usr/bin/afplay` commands
 
 Playback is randomly selected, detached, and silent on errors.
 
